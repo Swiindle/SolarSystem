@@ -1,57 +1,12 @@
-public class Moon
+public class Moon extends SolarBody
 {
-    private double distance;
-    private double angle;
-    private double diameter;
-    private String color;
     private double orbitalVelocity;
     
     public Moon(double dis, double a, double dia, String c, double v)
     {
-        distance = dis;
-        angle = a;
-        diameter = dia;
-        color = c;
+        super(dis,a,dia,c);
         orbitalVelocity = v;
     }
-    
-    // instance variable stuff
-    
-    public double getDistance()
-    {
-        return distance;
-    }
-    public double getAngle()
-    {
-        return angle;
-    }
-    public double getDiameter()
-    {
-        return diameter;
-    }
-    public String getColor()
-    {
-        return color;
-    }
-    
-    public void setDistance(double d)
-    {
-        distance = d;
-    }
-    public void setAngle(double a)
-    {
-        angle = a;
-    }
-    public void setDiameter(double d)
-    {
-        diameter = d;
-    }
-    public void setColor(String c)
-    {
-        color = c;
-    }
-    
-    // Other stuff
     
     public void move()
     {
