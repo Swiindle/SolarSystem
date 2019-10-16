@@ -7,18 +7,21 @@ public class SolarSystemManager
     
     public void go()
     {
-        //Planet earth = new Planet(150,0,10,"BLUE",0.5);
-        //Star sun = new Star(0,0,50,"YELLOW");
-        //Moon moon = new Moon(20,0,5,"WHITE",4);
+        Star sun = new Star(0,0,50,"YELLOW");
+        Planet earth = new Planet(150,0,10,"BLUE",0.5);
+        Moon moon = new Moon(20,0,5,"WHITE",4);
+        
+        ss.drawSolarObject(0,0,30,"YELLOW");
+        ss.finishedDrawing();
         
         while(true)
         {
             planetOrbitStar(sun,earth);
             moonOrbitPlanet(earth,moon);
             
-            ss.drawSolarObject(0,0,30,"YELLOW");
-            //earth.move();
-            //moon.move();
+            
+            earth.move();
+            moon.move();
             
             ss.finishedDrawing();
         }

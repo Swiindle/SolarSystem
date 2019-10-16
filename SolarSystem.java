@@ -44,8 +44,7 @@ public class SolarSystem extends JFrame
 	{
 		BufferedImage i = new BufferedImage(this.getWidth(), this.getHeight(), BufferedImage.TYPE_INT_ARGB);
 		Graphics2D g = i.createGraphics();
-		
-		//g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
 		synchronized (this)
 		{
@@ -60,7 +59,6 @@ public class SolarSystem extends JFrame
 					//try{ Thread.sleep(0); } catch (Exception e) {} 
 				}
 			}
-			
 			gr.drawImage(i, 0, 0, this);
 		}
 	}

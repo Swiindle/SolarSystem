@@ -4,7 +4,7 @@ public class Star
     private double angle;
     private double diameter;
     private String color;
-    // private Planet[] p; # of associated planets 
+    private Planet[] p; # of associated planets 
     
     public Star(double dis, double a, double dia, String c)
     {
