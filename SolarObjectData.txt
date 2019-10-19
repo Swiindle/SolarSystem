@@ -1,2 +1,2 @@
 Planet,Earth,BLUE,50,0,10,1
-Moon,OurMoon,White,20,0,5,1
+Moon,OurMoon,WHITE,20,0,5,1
