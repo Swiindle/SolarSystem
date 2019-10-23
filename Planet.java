@@ -23,6 +23,20 @@ public class Planet extends SolarBody
     /**
      *
      */
+    public int numberMoons()
+    {
+        int number = moons.size();
+        return number;
+    }
+    
+    public ArrayList<Moon> getMoons()
+    {
+        return moons;
+    }
+    
+    /**
+     *
+     */
     public void move()
     {
         this.setAngle(this.getAngle() + orbitalVelocity);

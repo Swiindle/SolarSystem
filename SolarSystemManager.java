@@ -5,8 +5,10 @@ import java.util.StringTokenizer;
 
 public class SolarSystemManager
 {
-    private SolarSystem ss = new SolarSystem(500,500);
+    private SolarSystem ss = new SolarSystem(1000,1000);
     private String dataFileName;
+    private Star sun = new Star("Sun",50,"YELLOW");         // there's only one sun
+
     
     /**
      * Construtor, creates an instance of the SolarSystemManager and runs the procedural method, go().
@@ -15,7 +17,7 @@ public class SolarSystemManager
     public SolarSystemManager(String s)
     {
         dataFileName = s;
-        this.go();
+        this.goData();
     }
     
     /**
@@ -55,7 +57,7 @@ public class SolarSystemManager
             while(fileReader.hasNextLine())
             {
                 String stringData = fileReader.nextLine();
-                System.out.println("Line: " + stringData);
+                //System.out.println("Line: " + stringData);
                 StringTokenizer st = new StringTokenizer(stringData,",");
                 if(lineCount == wantedLine)
                 {
@@ -63,32 +65,24 @@ public class SolarSystemManager
                     {
                         boolean isMoon = true;
                         String token = st.nextToken();
-                        System.out.println("Token :'" + token + "', #Token in line: " + i + ", #Tokens in total: " + st.countTokens());
+                        //System.out.println("Token :'" + token + "', #Token in line: " + i + ", #Tokens in total: " + st.countTokens());
                         if(i == 0)
                         {
                             array[0] = token;
                             if(token.equals("Moon"))
-                            {
                                 isMoon = true;
-                            }
                             else
-                            {
                                 isMoon = false;
-                            }
                         }
                         if(i == 1)
-                        {
-                            array[2] = token;
-                        }
+                            array[1] = token;
                         if(i == 2 && isMoon == false)
                         {
-                            array[1] = token;
+                            array[2] = token;
                             break;
                         }
                         if(i == 2 && isMoon == true)
-                        {
-                            array[1] = token;
-                        }
+                            array[2] = token;
                         if(i == 3)
                         {
                             array[3] = token;
@@ -108,7 +102,7 @@ public class SolarSystemManager
         {
             System.out.println("you may not have a SolarObjectData.txt");
         }
-        System.out.println("Class name: " + array[0] + ", Object name: " + array[1] + ", Object color: " + array[2]);
+        //System.out.println("Class name: " + array[0] + ", Object name: " + array[1] + ", Object color: " + array[2]);
         return array;
     }
     
@@ -130,60 +124,44 @@ public class SolarSystemManager
             while(fileReader.hasNextLine())
             {
                 String stringData = fileReader.nextLine();
-                System.out.println("Line: " + stringData);
+                //System.out.println("Line: " + stringData);
                 StringTokenizer st = new StringTokenizer(stringData,",");
                 if(lineCount == wantedLine)
                 {
+                    boolean isMoon = true;
                     for(int i = 0 ; st.hasMoreTokens() ; i++)
                     {
-                        boolean isMoon = true;
                         String token = st.nextToken();
                         //System.out.println("Token :'" + token + "', #Token in line: " + i + ", #Tokens in total: " + st.countTokens());
                         if(i == 0)
                         {
                             if(token.equals("Moon"))
-                            {
                                 isMoon = true;
-                            }
                             else
-                            {
                                 isMoon = false;
-                            }
                         }
                         if(isMoon == true)
                         {
                             if(i == 4)
-                            {
                                 array[0] = Double.valueOf(token);
-                            }
                             if(i == 5)
-                            {
                                 array[1] = Double.valueOf(token);
-                            }
                             if(i == 6)
-                            {
                                 array[2] = Double.valueOf(token);
-                            }
                             if(i == 7)
                             {
                                 array[3] = Double.valueOf(token);
                                 break;
                             }
                         }
-                        else
+                        if(isMoon == false)
                         {
                             if(i == 3)
-                            {
                                 array[0] = Double.valueOf(token);
-                            }
                             if(i == 4)
-                            {
                                 array[1] = Double.valueOf(token);
-                            }
                             if(i == 5)
-                            {
                                 array[2] = Double.valueOf(token);
-                            }
                             if(i == 6)
                             {
                                 array[3] = Double.valueOf(token);
@@ -204,7 +182,7 @@ public class SolarSystemManager
         {
             System.out.println("you may not have a SolarObjectData.txt");
         }
-        System.out.println("Distance: " + array[0] + ", Angle: " + array[1] + ", Diameter: " + array[2] + ", OrbitalVelocity: " + array[3]);
+        //System.out.println("Distance: " + array[0] + ", Angle: " + array[1] + ", Diameter: " + array[2] + ", OrbitalVelocity: " + array[3]);
         return array;
     }
     
@@ -246,7 +224,7 @@ public class SolarSystemManager
         {
             System.out.println("you may not have a SolarObjectData.txt");
         }
-        //System.out.println("the data file has " + array[2]+ " lines.");
+        //System.out.println("the data file has " + array[2] + " lines.");
         //System.out.println("#Planets: " + array[0] + ", #Moons: " + array[1] + ", #SolarObjects: " + array[2]);
         return array;
     }
@@ -254,7 +232,7 @@ public class SolarSystemManager
     /**
      * This method is first called when the SolarSystemManager is instantiated. Programmers can change this section of the code to their liking.
      */
-    public void go()
+    public void goData()
     {
         // DATA SECTION//
         /*
@@ -270,7 +248,6 @@ public class SolarSystemManager
         /*
          * As the program now knows how many objects and what objects, it shall now instantiate it
          */
-        Star sun = new Star("Sun",50,"YELLOW");         // there's only one sun
         Planet planet[] = new Planet[numberPlanets];    // the number of planets is fixed but depends on the the .txt file
         Moon moon[] = new Moon[numberMoons];            // the number of moons is fixed but depends on the the .txt file
         
@@ -283,12 +260,13 @@ public class SolarSystemManager
             if(wordArguments[0].equals("Planet"))
             {
                 planet[numberPlanetsInstantiated] = new Planet(wordArguments[1],numberArguments[0],numberArguments[1],numberArguments[2],wordArguments[2],numberArguments[3]);
+                sun.addPlanet(planet[numberPlanetsInstantiated]);
                 numberPlanetsInstantiated++;
             }
             if(wordArguments[0].equals("Moon"))
             {
                 moon[numberMoonsInstantiated] = new Moon(wordArguments[1],numberArguments[0],numberArguments[1],numberArguments[2],wordArguments[2],numberArguments[3]);
-                for(int j = 0 ; j < numberPlanets ; j++)
+                for(int j = 0 ; j < numberPlanetsInstantiated ; j++)
                 {
                     if(wordArguments[3].equals(planet[j].getName()))
                     {
@@ -298,19 +276,12 @@ public class SolarSystemManager
                 numberMoonsInstantiated++;
             }
         }
-    
-        /*
-         * Adding planets to sun's orbit, and adding moons to planet's orbit
-
         
-        for(int i = 0 ; i < numberPlanets ; i++)
-        {
-            sun.addPlanet(planet[i]);
-            for(int j = 0 ; j < numberMoons ; j++) //need to know how many moons a planet has
-            {
-                planet[i].addMoon(moon[j]);
-            }
-        }         */
+        this.actionGo();
+    }
+    
+    private void actionGo()
+    {
         // ACTION SECTION //
         /*
          * The system has now finished its data processing and will now show the solar system in progress!
@@ -318,23 +289,16 @@ public class SolarSystemManager
         while(true)
         {
             /*
-             * if planet is in arraylist of sun, draw planet orbit star
-             * if moon is in arraylist of planet, draw moon orbit planet
-             * this.drawPlanetOrbitStar(sun,sunArray[1])
-             * this.drawMoonOrbitMoon(moon,
-             */
-            
-            /*
              * Itirate through all moons and planets
              */
-            for(int i = 0 ; i < numberPlanets; i++)
+            for(Planet p : sun.getPlanets())
             {
-                this.drawPlanetOrbitStar(sun,planet[i]); // sun, orbiting planet 1 - write a for loop for all planets
-                planet[i].move();
-                for(int j = 0 ; i < numberMoons; j++)
+                this.drawPlanetOrbitStar(sun,p); // sun, orbiting planet 1 - write a for loop for all planets
+                p.move();
+                for(Moon m : p.getMoons())
                 {
-                    //this.drawMoonOrbitPlanet(planet[i],moon[j]); // orbiting
-                    //moon[j].move();
+                    this.drawMoonOrbitPlanet(p,m); // orbiting
+                    m.move();
                 }
             }
             ss.finishedDrawing();

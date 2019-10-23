@@ -21,4 +21,14 @@ public class Star extends SolarBody
     /**
      *
      */
+    public int numberPlanets()
+    {
+        int number = planets.size();
+        return number;
+    }
+    
+    public ArrayList<Planet> getPlanets()
+    {
+        return planets;
+    }
 }
