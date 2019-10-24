@@ -1,4 +1,4 @@
-public class Moon extends SolarBody
+public class Moon extends SolarBody implements Moves
 {
     private double orbitalVelocity;
     

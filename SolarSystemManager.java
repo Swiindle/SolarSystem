@@ -6,8 +6,8 @@ import java.util.StringTokenizer;
 public class SolarSystemManager
 {
     private SolarSystem ss = new SolarSystem(1000,1000);
-    private String dataFileName;
     private Star sun = new Star("Sun",50,"YELLOW");         // there's only one sun
+    private String dataFileName;
 
     
     /**
@@ -17,7 +17,6 @@ public class SolarSystemManager
     public SolarSystemManager(String s)
     {
         dataFileName = s;
-        this.goData();
     }
     
     /**
@@ -232,7 +231,7 @@ public class SolarSystemManager
     /**
      * This method is first called when the SolarSystemManager is instantiated. Programmers can change this section of the code to their liking.
      */
-    public void goData()
+    public void startData()
     {
         // DATA SECTION//
         /*
@@ -260,7 +259,7 @@ public class SolarSystemManager
             if(wordArguments[0].equals("Planet"))
             {
                 planet[numberPlanetsInstantiated] = new Planet(wordArguments[1],numberArguments[0],numberArguments[1],numberArguments[2],wordArguments[2],numberArguments[3]);
-                sun.addPlanet(planet[numberPlanetsInstantiated]);
+                sun.addSatelites(planet[numberPlanetsInstantiated]);
                 numberPlanetsInstantiated++;
             }
             if(wordArguments[0].equals("Moon"))
@@ -270,17 +269,17 @@ public class SolarSystemManager
                 {
                     if(wordArguments[3].equals(planet[j].getName()))
                     {
-                        planet[j].addMoon(moon[numberMoonsInstantiated]);
+                        planet[j].addSatelites(moon[numberMoonsInstantiated]);
                     }
                 }
                 numberMoonsInstantiated++;
             }
         }
         
-        this.actionGo();
+        this.startAction();
     }
     
-    private void actionGo()
+    public void startAction()
     {
         // ACTION SECTION //
         /*
@@ -291,11 +290,11 @@ public class SolarSystemManager
             /*
              * Itirate through all moons and planets
              */
-            for(Planet p : sun.getPlanets())
+            for(Planet p : sun.getSatelites())
             {
                 this.drawPlanetOrbitStar(sun,p); // sun, orbiting planet 1 - write a for loop for all planets
                 p.move();
-                for(Moon m : p.getMoons())
+                for(Moon m : p.getSatelites())
                 {
                     this.drawMoonOrbitPlanet(p,m); // orbiting
                     m.move();

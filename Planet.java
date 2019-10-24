@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Planet extends SolarBody
+public class Planet extends SolarBody implements Moves,HasSatelites<Moon>
 {
     private double orbitalVelocity;
     private ArrayList<Moon> moons = new ArrayList<Moon>();
@@ -14,7 +14,7 @@ public class Planet extends SolarBody
     /**
      *
      */
-    public void addMoon(Moon m)
+    public void addSatelites(Moon m)
     {
         System.out.println("The " + m.getName() + " is now orbiting the " + this.getName());
         moons.add(m);
@@ -23,13 +23,7 @@ public class Planet extends SolarBody
     /**
      *
      */
-    public int numberMoons()
-    {
-        int number = moons.size();
-        return number;
-    }
-    
-    public ArrayList<Moon> getMoons()
+    public ArrayList<Moon> getSatelites()
     {
         return moons;
     }

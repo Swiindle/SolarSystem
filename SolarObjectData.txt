@@ -1,2 +1,10 @@
-Planet,Earth,BLUE,50,0,10,1
-Moon,OurMoon,WHITE,Earth,20,0,5,1
+Planet,Mercury,#5b5c54,35.7,0,2,0.47
+Planet,Venus,#db822a,40.8,90,2,0.35
+Planet,Earth,BLUE,64.9,180,2,0.29
+Planet,Mars,RED,82.7,270,2,0.24
+Planet,Jupiter,#e88141,177.8,0,15,0.13
+Planet,Saturn,#cfa01f,250,,90,10,0.09
+Planet,Uranus,#36e0e3,350,180,10,0.06
+Planet,Neptune,#185aa1,450,270,5,0.05
+Moon,TheMoon,WHITE,Earth,5,1,1,0.2
+Moon,Titan,#eb9113,Jupiter,17,1,2,0.2

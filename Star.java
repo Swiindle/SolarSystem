@@ -1,6 +1,6 @@
 import java.util.ArrayList;
 
-public class Star extends SolarBody
+public class Star extends SolarBody implements HasSatelites<Planet>
 {
     private ArrayList<Planet> planets = new ArrayList<Planet>();
     
@@ -12,7 +12,7 @@ public class Star extends SolarBody
     /**
      *
      */
-    public void addPlanet(Planet p)
+    public void addSatelites(Planet p)
     {
         System.out.println("The " + p.getName() + " is now orbiting the " + this.getName());
         planets.add(p);
@@ -21,13 +21,7 @@ public class Star extends SolarBody
     /**
      *
      */
-    public int numberPlanets()
-    {
-        int number = planets.size();
-        return number;
-    }
-    
-    public ArrayList<Planet> getPlanets()
+    public ArrayList<Planet> getSatelites()
     {
         return planets;
     }
