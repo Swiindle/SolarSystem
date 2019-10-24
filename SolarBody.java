@@ -1,8 +1,6 @@
-public abstract class SolarBody
+public abstract class SolarBody extends Point
 {
     private String name;
-    private double distance;
-    private double angle;
     private double diameter;
     private String color;
     
@@ -11,9 +9,8 @@ public abstract class SolarBody
      */
     public SolarBody(String n, double dis, double a, double dia, String c)
     {
+        super(a,dis);
         name = n;
-        distance = dis;
-        angle = a;
         diameter = dia;
         color = c;
     }
@@ -29,22 +26,7 @@ public abstract class SolarBody
     /**
      *
      */
-    public double getDistance()
-    {
-        return distance;
-    }
-    
-    /**
-     *
-     */
-    public double getAngle()
-    {
-        return angle;
-    }
-    
-    /**
-     *
-     */
+
     public double getDiameter()
     {
         return diameter;
@@ -64,22 +46,6 @@ public abstract class SolarBody
     public void setName(String n)
     {
         name = n;
-    }
-    
-    /**
-     *
-     */
-    public void setDistance(double d)
-    {
-        distance = d;
-    }
-    
-    /**
-     *
-     */
-    public void setAngle(double a)
-    {
-        angle = a;
     }
     
     /**
