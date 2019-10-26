@@ -2,7 +2,12 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.StringTokenizer;
+import java.util.Random;  // custom
 
+/**
+ * This class provides a graphical user interface to a model of the solar system
+ * @author Mark Lim - Lancaster University Year 2 Student
+ */
 public class SolarSystemManager
 {
     private SolarSystem ss = new SolarSystem(1000,1000);
@@ -11,7 +16,7 @@ public class SolarSystemManager
 
     
     /**
-     * Construtor, creates an instance of the SolarSystemManager and runs the procedural method, go().
+     * Construtor, creates an instance of the SolarSystemManager.
      * @param The name of the .txt file that contains all the data about the Solar Objects.
      */
     public SolarSystemManager(String s)
@@ -20,24 +25,29 @@ public class SolarSystemManager
     }
     
     /**
+     * Use this function to draw a star.
+     * @param The Star object that you want the planet to orbit
+     */
+    private void drawStar(Star s)
+    {
+        ss.drawSolarObject(s.getDistance(),s.getAngle(),s.getDiameter(),s.getColor());
+    }
+    
+    /**
      * Use this function to draw a planet orbiting around the star. Combines drawSolarObject() method from SolarSystem class.
      * @param The Star object that you want the planet to orbit
      * @param The Planet object that you want to orbit the star
      */
-    private void drawPlanetOrbitStar(Star s, Planet p)
+    private void drawObjectInOrbit(SolarBody a, SolarBody b)
     {
-        ss.drawSolarObject(s.getDistance(),s.getAngle(),s.getDiameter(),s.getColor());
-        ss.drawSolarObject(p.getDistance(),p.getAngle(),p.getDiameter(),p.getColor());
-    }
-    
-    /**
-     * Use this function to draw a moon oribiting around a planet. Uses a drawSolarObject() method from SolarSystem class.
-     * @param The Planet object that you want the moon to orbit.
-     * @param The Moon object that you want to orbit the planet.
-     */
-    private void drawMoonOrbitPlanet(Planet p, Moon m)
-    {
-        ss.drawSolarObjectAbout(m.getDistance(),m.getAngle(),m.getDiameter(),m.getColor(),p.getDistance(),p.getAngle());
+        if(HasSatelites.class.isAssignableFrom(a.getClass())) // checks to see if Object A implemetns the HasSatelites interface
+        {
+            ss.drawSolarObjectAbout(b.getDistance(),b.getAngle(),b.getDiameter(),b.getColor(),a.getDiameter(),a.getAngle());
+        }
+        else
+        {
+            System.out.println("Your objects may not be a satelite");
+        }
     }
     
     /**
@@ -237,43 +247,55 @@ public class SolarSystemManager
         /*
          * Here are the variables that this method will need
          */
-        int[] solarObjectArray = this.numberOfSolarObjects();
+        int[] solarObjectArray = this.numberOfSolarObjects(); // pickup the data from the .txt file
         int numberPlanets = solarObjectArray[0];
         int numberMoons = solarObjectArray[1];
         int totalObjects = solarObjectArray[2];
         int numberPlanetsInstantiated = 0;
         int numberMoonsInstantiated = 0;
-        
-        /*
-         * As the program now knows how many objects and what objects, it shall now instantiate it
-         */
+    
         Planet planet[] = new Planet[numberPlanets];    // the number of planets is fixed but depends on the the .txt file
         Moon moon[] = new Moon[numberMoons];            // the number of moons is fixed but depends on the the .txt file
         
         for(int i = 0 ; i < totalObjects ; i++)
         {
-            //System.out.println("///Object#: " + i + " now getting word arguments///");
-            String[] wordArguments = this.getDataString(i);
-            //System.out.println("///Object#: " + i + " now getting numerical arguments///");
-            double[] numberArguments = this.getDataNumerical(i);
-            if(wordArguments[0].equals("Planet"))
+            String[] wordArguments = this.getDataString(i); // pickup the String data from .txt file
+            double[] numberArguments = this.getDataNumerical(i); // pickup the numerical dat from .txt file
+            
+            if(wordArguments[0].equals("Planet"))               // create planet if .txt file says planet
             {
                 planet[numberPlanetsInstantiated] = new Planet(wordArguments[1],numberArguments[0],numberArguments[1],numberArguments[2],wordArguments[2],numberArguments[3]);
-                sun.addSatelites(planet[numberPlanetsInstantiated]);
+                sun.addSatelite(planet[numberPlanetsInstantiated]);
                 numberPlanetsInstantiated++;
             }
-            if(wordArguments[0].equals("Moon"))
+            
+            if(wordArguments[0].equals("Moon"))                 // create moon if .txt file says moon
             {
                 moon[numberMoonsInstantiated] = new Moon(wordArguments[1],numberArguments[0],numberArguments[1],numberArguments[2],wordArguments[2],numberArguments[3]);
                 for(int j = 0 ; j < numberPlanetsInstantiated ; j++)
                 {
                     if(wordArguments[3].equals(planet[j].getName()))
                     {
-                        planet[j].addSatelites(moon[numberMoonsInstantiated]);
+                        planet[j].addSatelite(moon[numberMoonsInstantiated]);
                     }
                 }
                 numberMoonsInstantiated++;
             }
+        }
+        
+        // CUSTOM
+        Random rand = new Random();
+        int numberAsteroids = 400;
+        Asteroid[] a = new Asteroid[numberAsteroids];
+        for(int i = 0 ; i < numberAsteroids ; i++)
+        {
+            double randomDistance = Double.valueOf(rand.nextInt(87) + 90);
+            double randomAngle = Double.valueOf(rand.nextInt(361));
+            double randomOrbitalVelocity = rand.nextDouble();
+
+
+            a[i] = new Asteroid("Asteroid" + String.valueOf(i), randomDistance, randomAngle, 0.5, "#6b6b6b", randomOrbitalVelocity);
+            sun.addAsteroid(a[i]);
         }
         
         this.startAction();
@@ -292,13 +314,18 @@ public class SolarSystemManager
              */
             for(Planet p : sun.getSatelites())
             {
-                this.drawPlanetOrbitStar(sun,p); // sun, orbiting planet 1 - write a for loop for all planets
+                this.drawObjectInOrbit(sun,p); // sun, orbiting planet 1 - write a for loop for all planets
                 p.move();
                 for(Moon m : p.getSatelites())
                 {
-                    this.drawMoonOrbitPlanet(p,m); // orbiting
+                    this.drawObjectInOrbit(p,m); // orbiting
                     m.move();
                 }
+            }
+            // custom object
+            for(Asteroid a : sun.getAsteroids())
+            {
+                this.drawObjectInOrbit(sun,a);
             }
             ss.finishedDrawing();
         }

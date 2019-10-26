@@ -1,13 +1,8 @@
-/**
- * This class provides a graphical user interface to a model of the solar system
- * @author Mark Lim - Lancaster University Year 2 Student
- */
-
-public class Moon extends SolarBody implements Moves
+public class Asteroid extends SolarBody implements Moves
 {
     private double orbitalVelocity;
     
-    public Moon(String n, double dis, double a, double dia, String c, double v)
+    public Asteroid(String n, double dis, double a, double dia, String c, double v)
     {
         super(n,dis,a,dia,c);
         orbitalVelocity = v;
@@ -25,4 +20,3 @@ public class Moon extends SolarBody implements Moves
         }
     }
 }
-

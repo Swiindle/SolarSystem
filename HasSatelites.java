@@ -1,9 +1,10 @@
 import java.util.ArrayList;
 /**
- * So that programmers can 'mark' Objects that have Satelites
+ * This class provides a graphical user interface to a model of the solar system
+ * @author Mark Lim - Lancaster University Year 2 Student
  */
 interface HasSatelites<E>
 {
-    public void addSatelites(E e);
+    public void addSatelite(E e);
     public ArrayList<E> getSatelites();
 }

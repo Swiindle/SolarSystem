@@ -1,5 +1,9 @@
 import java.util.ArrayList;
 
+/**
+ * This class provides a graphical user interface to a model of the solar system
+ * @author Mark Lim - Lancaster University Year 2 Student
+ */
 public class Planet extends SolarBody implements Moves,HasSatelites<Moon>
 {
     private double orbitalVelocity;
@@ -14,7 +18,7 @@ public class Planet extends SolarBody implements Moves,HasSatelites<Moon>
     /**
      *
      */
-    public void addSatelites(Moon m)
+    public void addSatelite(Moon m)
     {
         System.out.println("The " + m.getName() + " is now orbiting the " + this.getName());
         moons.add(m);

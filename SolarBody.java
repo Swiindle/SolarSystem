@@ -1,3 +1,7 @@
+/**
+ * This class provides a graphical user interface to a model of the solar system
+ * @author Mark Lim - Lancaster University Year 2 Student
+ */
 public abstract class SolarBody extends Point
 {
     private String name;
@@ -13,6 +17,22 @@ public abstract class SolarBody extends Point
         name = n;
         diameter = dia;
         color = c;
+    }
+    
+    /**
+     *
+     */
+    public double getDistance()
+    {
+        return distance;
+    }
+    
+    /**
+     *
+     */
+    public double getAngle()
+    {
+        return angle;
     }
     
     /**
@@ -62,5 +82,21 @@ public abstract class SolarBody extends Point
     public void setColor(String c)
     {
         color = c;
+    }
+    
+    /**
+     *
+     */
+    public void setDistance(double d)
+    {
+        distance = d;
+    }
+    
+    /**
+     *
+     */
+    public void setAngle(double a)
+    {
+        angle = a;
     }
 }

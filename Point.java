@@ -1,3 +1,7 @@
+/**
+ * Representation of a location in space.
+ * @author Mark Lim - Lancaster University Year 2 Student
+ */
 public abstract class Point
 {
     double distance;
@@ -10,7 +14,8 @@ public abstract class Point
     }
     
     /**
-     *
+     * Returns the distance from the centre of the Universe.
+     * @return distance from the centre of the Universe
      */
     public double getDistance()
     {
@@ -18,7 +23,8 @@ public abstract class Point
     }
     
     /**
-     *
+     * Returns the angle of orbit.
+     * @return angle of orbit.
      */
     public double getAngle()
     {
