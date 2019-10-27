@@ -5,19 +5,19 @@ import java.util.StringTokenizer;
 import java.util.Random;  // custom
 
 /**
- * This class provides a graphical user interface to a model of the solar system
+ * This class creates and executes the data of the SolarSystem.
  * @author Mark Lim - Lancaster University Year 2 Student
  */
 public class SolarSystemManager
 {
-    private SolarSystem ss = new SolarSystem(1000,1000);
+    private SolarSystem ss = new SolarSystem(1000,1000);    // The SolarSystem visual engine.
     private Star sun = new Star("Sun",50,"YELLOW");         // there's only one sun
-    private String dataFileName;
+    private String dataFileName;                            // The name of the file
 
     
     /**
      * Construtor, creates an instance of the SolarSystemManager.
-     * @param The name of the .txt file that contains all the data about the Solar Objects.
+     * @param s The name of the .txt file that contains all the data about the Solar Objects.
      */
     public SolarSystemManager(String s)
     {
@@ -26,7 +26,7 @@ public class SolarSystemManager
     
     /**
      * Use this function to draw a star.
-     * @param The Star object that you want the planet to orbit
+     * @param The Star that you want to draw.
      */
     private void drawStar(Star s)
     {
@@ -34,15 +34,15 @@ public class SolarSystemManager
     }
     
     /**
-     * Use this function to draw a planet orbiting around the star. Combines drawSolarObject() method from SolarSystem class.
-     * @param The Star object that you want the planet to orbit
-     * @param The Planet object that you want to orbit the star
+     * Use this function to draw a SolarBody orbitting another SolarBody.
+     * @param a The Parent SolarBody. This object must implement the HasSatelites interface.
+     * @param b The Child SolarBody which you want to orbit SolarBody a.
      */
     private void drawObjectInOrbit(SolarBody a, SolarBody b)
     {
-        if(HasSatelites.class.isAssignableFrom(a.getClass())) // checks to see if Object A implemetns the HasSatelites interface
+        if(HasSatelites.class.isAssignableFrom(a.getClass())) // checks to see if Object A implements the HasSatelites interface
         {
-            ss.drawSolarObjectAbout(b.getDistance(),b.getAngle(),b.getDiameter(),b.getColor(),a.getDiameter(),a.getAngle());
+            ss.drawSolarObjectAbout(b.getDistance(),b.getAngle(),b.getDiameter(),b.getColor(),a.getDistance(),a.getAngle());
         }
         else
         {
@@ -52,12 +52,12 @@ public class SolarSystemManager
     
     /**
      * Use this function to get an array of the textual information for the user provided .txt file.
-     * @param The line of the .txt which you would like to read your information.
-     * @return An array containing the textual tokens. First element of the array is the Class name. Second element is the name of that object. Third element is the color which you want your planet to be.
+     * @param wantedLine The line of the .txt which you would like to read your information.
+     * @return An array containing the textual tokens. First element of the array is the Class name. Second element is the name of that object. Third element is the color which you want your planet to be. If the first element of the array is a Moon, the fourt element will be the name of the Planet that the Moon is orbitting.
      */
     private String[] getDataString(int wantedLine)
     {
-        String[] array = new String[4];
+        String[] array = new String[4];                                 // the array which will store the parameters
         try
         {
             File solarObjecData = new File(dataFileName);               // the file object
@@ -65,17 +65,15 @@ public class SolarSystemManager
             int lineCount = 0;
             while(fileReader.hasNextLine())
             {
-                String stringData = fileReader.nextLine();
-                //System.out.println("Line: " + stringData);
-                StringTokenizer st = new StringTokenizer(stringData,",");
-                if(lineCount == wantedLine)
+                String stringData = fileReader.nextLine();                // for each line, while there are still lines
+                StringTokenizer st = new StringTokenizer(stringData,","); // each token is seperated by a comma
+                if(lineCount == wantedLine)                     // searches until the wanted line is found...
                 {
-                    for(int i = 0 ; st.hasMoreTokens() ; i++)
+                    for(int i = 0 ; st.hasMoreTokens() ; i++) // for each token in the line...
                     {
                         boolean isMoon = true;
                         String token = st.nextToken();
-                        //System.out.println("Token :'" + token + "', #Token in line: " + i + ", #Tokens in total: " + st.countTokens());
-                        if(i == 0)
+                        if(i == 0)                           // the first token
                         {
                             array[0] = token;
                             if(token.equals("Moon"))
@@ -83,16 +81,16 @@ public class SolarSystemManager
                             else
                                 isMoon = false;
                         }
-                        if(i == 1)
+                        if(i == 1)                          // the second token
                             array[1] = token;
-                        if(i == 2 && isMoon == false)
+                        if(i == 2 && isMoon == false)       // the third and last token (if planet)
                         {
                             array[2] = token;
                             break;
                         }
-                        if(i == 2 && isMoon == true)
+                        if(i == 2 && isMoon == true)        // the third token (if moon)
                             array[2] = token;
-                        if(i == 3)
+                        if(i == 3)                          // the fourth token (if moon)
                         {
                             array[3] = token;
                             break;
@@ -117,12 +115,12 @@ public class SolarSystemManager
     
     /**
      * Use this function to get an array of the numerical tokens from the user provided .txt file.
-     * @param The line of the .txt which you would like to read your information.
+     * @param wantedLine The line of the .txt which you would like to read your information.
      * @return An array containing the numerical tokens. First element of the array is the distance (radius) of the object from the center of the model. Second element is the starting angle from the center of the solar system model. Third element is the diameter (size) of the circle drawn. Fourth element is the speed in which the circle moves around the center of the model.
      */
     private double[] getDataNumerical(int wantedLine)
     {
-        double[] array = {0,0,0,0};
+        double[] array = {0,0,0,0};                                     // the array which shall store the parameters
         try
         {
             File solarObjecData = new File(dataFileName);               // the file object
@@ -130,26 +128,24 @@ public class SolarSystemManager
 
             int lineCount = 0;
             
-            while(fileReader.hasNextLine())
+            while(fileReader.hasNextLine())                             // for each line, while there are still lines
             {
                 String stringData = fileReader.nextLine();
-                //System.out.println("Line: " + stringData);
                 StringTokenizer st = new StringTokenizer(stringData,",");
-                if(lineCount == wantedLine)
+                if(lineCount == wantedLine)                         // searches until wanted line is found
                 {
                     boolean isMoon = true;
-                    for(int i = 0 ; st.hasMoreTokens() ; i++)
+                    for(int i = 0 ; st.hasMoreTokens() ; i++)       // until there are no more tokens in the line
                     {
                         String token = st.nextToken();
-                        //System.out.println("Token :'" + token + "', #Token in line: " + i + ", #Tokens in total: " + st.countTokens());
-                        if(i == 0)
+                        if(i == 0)                                  // checks to see if first element is a moon...
                         {
                             if(token.equals("Moon"))
                                 isMoon = true;
                             else
                                 isMoon = false;
                         }
-                        if(isMoon == true)
+                        if(isMoon == true)                          // if its a moon, all tokens will move up by 1 place.
                         {
                             if(i == 4)
                                 array[0] = Double.valueOf(token);
@@ -163,7 +159,7 @@ public class SolarSystemManager
                                 break;
                             }
                         }
-                        if(isMoon == false)
+                        if(isMoon == false)                         // if not a moon, all tokens will not move
                         {
                             if(i == 3)
                                 array[0] = Double.valueOf(token);
@@ -207,25 +203,21 @@ public class SolarSystemManager
             File solarObjecData = new File(dataFileName);               // the file object
             Scanner fileReader = new Scanner(solarObjecData);           // the file reader object
             
-            while (fileReader.hasNextLine()) // going through
+            while (fileReader.hasNextLine()) // going through line by line
             {
                 String stringData = fileReader.nextLine();
-                //System.out.println("Line: " + stringData);
                 StringTokenizer st = new StringTokenizer(stringData,",");
-                for(int i = 0 ; st.hasMoreTokens() ; i++)
+                String token = st.nextToken();
+                
+                if(token.equals("Planet"))              // if the first token is Planet, increment number of Planets
                 {
-                    String token = st.nextToken();
-                    //System.out.println("Token :'" + token + "', #Token in line: " + i + ", #Tokens in total: " + st.countTokens());
-                    if(token.equals("Planet"))
-                    {
-                        array[0]++;
-                    }
-                    if(token.equals("Moon"))
-                    {
-                        array[1]++;
-                    }
+                    array[0]++;
                 }
-                array[2]++;
+                if(token.equals("Moon"))                // if the second token is Moon, increment number of Moon
+                {
+                    array[1]++;
+                }
+                array[2]++;                             // the amount of objects, alternatively, adding moon + planet?
             }
             fileReader.close();
         }
@@ -239,20 +231,17 @@ public class SolarSystemManager
     }
     
     /**
-     * This method is first called when the SolarSystemManager is instantiated. Programmers can change this section of the code to their liking.
+     * The algorithm that prepares the data for all SolarBodys in the Solar System Model. Needs to be called before startAction() is called, as the data from this method will be stored under the Star object.
+     * Developers may want to change this section if code is to be updated.
      */
     public void startData()
     {
-        // DATA SECTION//
-        /*
-         * Here are the variables that this method will need
-         */
         int[] solarObjectArray = this.numberOfSolarObjects(); // pickup the data from the .txt file
         int numberPlanets = solarObjectArray[0];
         int numberMoons = solarObjectArray[1];
         int totalObjects = solarObjectArray[2];
-        int numberPlanetsInstantiated = 0;
-        int numberMoonsInstantiated = 0;
+        int numberPlanetsInstantiated = 0;                  // number of planets already instantiated
+        int numberMoonsInstantiated = 0;                    // number of moons already instantiated
     
         Planet planet[] = new Planet[numberPlanets];    // the number of planets is fixed but depends on the the .txt file
         Moon moon[] = new Moon[numberMoons];            // the number of moons is fixed but depends on the the .txt file
@@ -283,35 +272,33 @@ public class SolarSystemManager
             }
         }
         
-        // CUSTOM
+        // CUSTOM AREA
         Random rand = new Random();
         int numberAsteroids = 400;
         Asteroid[] a = new Asteroid[numberAsteroids];
         for(int i = 0 ; i < numberAsteroids ; i++)
         {
-            double randomDistance = Double.valueOf(rand.nextInt(87) + 90);
+            double randomDistance = Double.valueOf(rand.nextInt(45) + 95);
             double randomAngle = Double.valueOf(rand.nextInt(361));
-            double randomOrbitalVelocity = rand.nextDouble();
-
-
-            a[i] = new Asteroid("Asteroid" + String.valueOf(i), randomDistance, randomAngle, 0.5, "#6b6b6b", randomOrbitalVelocity);
+            double randomOrbitalVelocity = 0.01 + (0.2 - 0.01) * rand.nextDouble();
+                        
+            a[i] = new Asteroid("Asteroid" + String.valueOf(i), randomDistance, randomAngle, 1.0, "WHITE", randomOrbitalVelocity);
             sun.addAsteroid(a[i]);
         }
-        
         this.startAction();
     }
     
+    /**
+     * This method should be called after startData() is called first. This method takes the data that is processed in startData() and does something with it.
+     */
     public void startAction()
     {
-        // ACTION SECTION //
-        /*
-         * The system has now finished its data processing and will now show the solar system in progress!
-         */
         while(true)
         {
             /*
              * Itirate through all moons and planets
              */
+            this.drawStar(sun);
             for(Planet p : sun.getSatelites())
             {
                 this.drawObjectInOrbit(sun,p); // sun, orbiting planet 1 - write a for loop for all planets
@@ -326,6 +313,7 @@ public class SolarSystemManager
             for(Asteroid a : sun.getAsteroids())
             {
                 this.drawObjectInOrbit(sun,a);
+                a.move();
             }
             ss.finishedDrawing();
         }
